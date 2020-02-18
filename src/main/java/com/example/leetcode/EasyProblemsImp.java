@@ -159,7 +159,7 @@ public class EasyProblemsImp implements EasyProblems {
     }
 
     @Override
-    public void arrayMerge(int[] nums1, int m, int[] nums2, int n) {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
         int p1 = m - 1;
         int p2 = n - 1;
         int p = m + n - 1;
@@ -213,6 +213,97 @@ public class EasyProblemsImp implements EasyProblems {
             count += (num == candidate) ? 1 : -1;
         }
         return candidate;
+    }
+
+    @Override
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
+            return true;
+        }
+        if (p == null || q == null) {
+            return false;
+        }
+        if (p.val != q.val) {
+            return false;
+        }
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+    }
+
+    @Override
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int maxLeftTreeDepth = maxDepth(root.left);
+        int maxRightTreeDepth = maxDepth(root.right);
+
+        return Math.max(maxLeftTreeDepth, maxRightTreeDepth) + 1;
+    }
+
+    @Override
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if(root.left == null && root.right == null){
+            return 1;
+        }
+        int left = Integer.MAX_VALUE, right = Integer.MAX_VALUE;
+        if(root.left != null){
+            left = minDepth(root.left);
+        }
+        if(root.right != null){
+            right = minDepth(root.right);
+        }
+
+        return Math.min(left, right) + 1;
+    }
+
+    @Override
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        if (Math.abs(maxDepth(root.left) - maxDepth(root.right)) > 1) {
+            return false;
+        }
+
+        boolean isLeftTreeBalanced = isBalanced(root.left);
+        boolean isRightTreeBalanced = isBalanced(root.right);
+
+        return isLeftTreeBalanced && isRightTreeBalanced;
+    }
+
+    int[] nums;
+    @Override
+    public TreeNode sortedArrayToBST(int[] nums) {
+        this.nums = nums;
+        return createTreeNode(0, this.nums.length-1);
+    }
+
+    private TreeNode createTreeNode(int left, int right){
+        if(left > right){
+            return null;
+        }
+
+        int p = (left + right) / 2;
+
+        TreeNode root = new TreeNode(nums[p]);
+        root.left = createTreeNode(left, p-1);
+        root.right = createTreeNode(p+1, right);
+
+        return root;
+    }
+
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
     }
 
 }
