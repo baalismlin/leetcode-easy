@@ -1,9 +1,10 @@
 package com.example.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class EasyProblemsImp implements EasyProblems {
+
+    int[] nums;
 
     @Override
     public int[] twoSum(int[] nums, int target) {
@@ -246,14 +247,14 @@ public class EasyProblemsImp implements EasyProblems {
         if (root == null) {
             return 0;
         }
-        if(root.left == null && root.right == null){
+        if (root.left == null && root.right == null) {
             return 1;
         }
         int left = Integer.MAX_VALUE, right = Integer.MAX_VALUE;
-        if(root.left != null){
+        if (root.left != null) {
             left = minDepth(root.left);
         }
-        if(root.right != null){
+        if (root.right != null) {
             right = minDepth(root.right);
         }
 
@@ -275,25 +276,74 @@ public class EasyProblemsImp implements EasyProblems {
         return isLeftTreeBalanced && isRightTreeBalanced;
     }
 
-    int[] nums;
     @Override
     public TreeNode sortedArrayToBST(int[] nums) {
         this.nums = nums;
-        return createTreeNode(0, this.nums.length-1);
+        return createTreeNode(0, this.nums.length - 1);
     }
 
-    private TreeNode createTreeNode(int left, int right){
-        if(left > right){
+    private TreeNode createTreeNode(int left, int right) {
+        if (left > right) {
             return null;
         }
 
         int p = (left + right) / 2;
 
         TreeNode root = new TreeNode(nums[p]);
-        root.left = createTreeNode(left, p-1);
-        root.right = createTreeNode(p+1, right);
+        root.left = createTreeNode(left, p - 1);
+        root.right = createTreeNode(p + 1, right);
 
         return root;
+    }
+
+    @Override
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> list = new ArrayList<>();
+        if (root == null) {
+            return list;
+        }
+        TreeNode node;
+        int size;
+        List<Integer> line;
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            size = queue.size();
+            line = new ArrayList<>();
+            while (size-- > 0) {
+                node = queue.remove();
+                line.add(node.val);
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+            list.add(line);
+        }
+        Collections.reverse(list);
+        return list;
+    }
+
+    @Override
+    public int search(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        int mid;
+        while (left <= right) {
+            mid = (left + right) / 2;
+            if (target == nums[mid]) {
+                return mid;
+            }
+            if (target > nums[mid]) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
     }
 
     public static class TreeNode {
@@ -305,5 +355,6 @@ public class EasyProblemsImp implements EasyProblems {
             val = x;
         }
     }
+
 
 }

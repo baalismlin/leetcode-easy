@@ -3,6 +3,9 @@ package com.example.leetcode;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class EasyProblemsTest {
     private EasyProblems agent = (EasyProblems) ProblemAgent.agent(EasyProblems.class, new EasyProblemsImp());
@@ -11,21 +14,27 @@ public class EasyProblemsTest {
     private EasyProblemsImp.TreeNode testData(){
         EasyProblemsImp.TreeNode root = new EasyProblemsImp.TreeNode(1);
         EasyProblemsImp.TreeNode node2 = new EasyProblemsImp.TreeNode(2);
-//        EasyProblemsImp.TreeNode node3 = new EasyProblemsImp.TreeNode(3);
-//        EasyProblemsImp.TreeNode node4 = new EasyProblemsImp.TreeNode(4);
-//        EasyProblemsImp.TreeNode node5 = new EasyProblemsImp.TreeNode(5);
+        EasyProblemsImp.TreeNode node3 = new EasyProblemsImp.TreeNode(3);
+        EasyProblemsImp.TreeNode node4 = new EasyProblemsImp.TreeNode(4);
+        EasyProblemsImp.TreeNode node5 = new EasyProblemsImp.TreeNode(5);
         root.left = node2;
-//        root.right = node3;
-//        node2.left = node4;
-//        node2.right = node5;
+        root.right = node3;
+        node2.left = node4;
+        node2.right = node5;
         return root;
+    }
+
+    @Test
+    public void levelOrderBottomTest(){
+        EasyProblemsImp.TreeNode root = testData();
+        String s = agent.levelOrderBottom(root).toString();
+        System.out.println(s);
     }
 
     @Test
     public void sortedArrayToBSTTest(){
         int[] nums = new int[]{-10,-3,0,5,9};
         EasyProblemsImp.TreeNode root = agent.sortedArrayToBST(nums);
-        System.out.println(EasyProblems.toString(root));
     }
 
     @Test
@@ -44,7 +53,7 @@ public class EasyProblemsTest {
     public void maxDepthTest(){
         EasyProblemsImp.TreeNode root = testData();
         int depth = agent.maxDepth(root);
-        Assert.assertEquals(3, depth);
+        Assert.assertEquals(2, depth);
     }
 
     @Test
@@ -99,5 +108,21 @@ public class EasyProblemsTest {
         stackAgent.push(1);
         stackAgent.pop();
         Assert.assertEquals(1, stackAgent.getMin()); ;
+    }
+
+    @Test
+    public void toStringTest(){
+        List<InfiniteRecursion> list = new ArrayList<>(10);
+        for (int i = 0; i< 10; i++){
+            list.add(new InfiniteRecursion());
+        }
+        System.out.println(list);
+    }
+
+    static class InfiniteRecursion{
+        @Override
+        public String toString(){
+            return "InfiniteRecursion address: "+super.toString()+"\n";
+        }
     }
 }
