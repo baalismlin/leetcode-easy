@@ -90,6 +90,8 @@ public interface EasyProblems {
         sb.append(root.val).append(",");
     }
 
+    List<List<Integer>> levelOrder(EasyProblemsImp.TreeNode root);
+
     // 1. 两数之和
     int[] twoSum(int[] nums, int target);
 
@@ -132,4 +134,7 @@ public interface EasyProblems {
 
     // 704
     int search(int[] nums, int target);
+
+    // 25
+    EasyProblemsImp.ListNode reverseKGroup(EasyProblemsImp.ListNode head, int k);
 }

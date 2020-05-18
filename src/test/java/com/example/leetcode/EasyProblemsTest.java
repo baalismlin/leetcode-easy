@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 public class EasyProblemsTest {
@@ -22,6 +24,56 @@ public class EasyProblemsTest {
         node2.left = node4;
         node2.right = node5;
         return root;
+    }
+
+    private EasyProblemsImp.ListNode testLinkedListData(){
+        EasyProblemsImp.ListNode head = new EasyProblemsImp.ListNode(1);
+        EasyProblemsImp.ListNode current = head;
+        current.next = new EasyProblemsImp.ListNode(2);
+        current = current.next;
+        current.next = new EasyProblemsImp.ListNode(3);
+        current = current.next;
+        current.next = new EasyProblemsImp.ListNode(4);
+        current = current.next;
+        current.next = new EasyProblemsImp.ListNode(5);
+        return head;
+    }
+
+    private void out(EasyProblemsImp.ListNode head){
+        if(head== null){
+            System.out.println("empty linked list.");
+            return;
+        }
+        EasyProblemsImp.ListNode current = head;
+        do{
+            System.out.print(current.val+"-->");
+            current = current.next;
+        }while(current != null);
+        System.out.println();
+    }
+
+    @Test
+    public void reverseKGroupTest(){
+        EasyProblemsImp.ListNode head = testLinkedListData();
+        out(head);
+        EasyProblemsImp.ListNode reversed = agent.reverseKGroup(head, 2);
+        out(reversed);
+    }
+
+    @Test
+    public void levelOrderTest(){
+        EasyProblemsImp.TreeNode root = testData();
+        List<List<Integer>> result = agent.levelOrder(root);
+        StringBuilder sb = new StringBuilder();
+        for(List<Integer> level: result){
+            sb.delete(0, sb.length());
+            sb.append("[");
+            for(Integer i : level){
+                sb.append(i).append(",");
+            }
+            sb.append("]");
+            System.out.println(sb.toString());
+        }
     }
 
     @Test

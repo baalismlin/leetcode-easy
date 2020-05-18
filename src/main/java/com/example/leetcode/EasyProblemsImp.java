@@ -1,10 +1,80 @@
 package com.example.leetcode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 public class EasyProblemsImp implements EasyProblems {
 
-    int[] nums;
+    @Override
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode hair = new ListNode(0);
+        hair.next = head;
+        ListNode pre = hair;
+        ListNode tail = hair;
+        while (head != null) {
+            for (int i = 0; i < k; i++) {
+                tail = tail.next;
+                if(tail == null){
+                    return hair.next;
+                }
+            }
+            ListNode next = tail.next;
+            reverse(head, tail);
+            pre.next = tail;
+            pre = head;
+            head.next = next;
+            tail = head;
+            head = next;
+        }
+        return hair.next;
+    }
+
+    private void reverse(ListNode head, ListNode tail) {
+        ListNode pre = null;
+        ListNode curr = head;
+        while(pre != tail){
+            ListNode next  = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = next;
+        }
+    }
+
+    @Override
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+
+        Queue<TreeNode> deque = new LinkedList<>();
+        deque.offer(root);
+        int size;
+        List<Integer> level = new ArrayList<>();
+
+        while ((size = deque.size()) > 0) {
+            while (size > 0) {
+                TreeNode node = deque.poll();
+
+                if (node.left != null) {
+                    deque.offer(node.left);
+                }
+                if (node.right != null) {
+                    deque.offer(node.right);
+                }
+                level.add(node.val);
+                size--;
+            }
+            result.add(level);
+            level.clear();
+        }
+        return result;
+    }
 
     @Override
     public int[] twoSum(int[] nums, int target) {
@@ -129,7 +199,9 @@ public class EasyProblemsImp implements EasyProblems {
     @Override
     public void rotate(int[] nums, int k) {
         k = k % nums.length;
-        if (k == 0) return;
+        if (k == 0) {
+            return;
+        }
         for (int count = 0, i = 0, j, temp; count < nums.length; i++) {
             j = i;
             do {
@@ -276,6 +348,7 @@ public class EasyProblemsImp implements EasyProblems {
         return isLeftTreeBalanced && isRightTreeBalanced;
     }
 
+    int[] nums;
     @Override
     public TreeNode sortedArrayToBST(int[] nums) {
         this.nums = nums;
@@ -356,5 +429,12 @@ public class EasyProblemsImp implements EasyProblems {
         }
     }
 
+    public static class ListNode {
+        int val;
+        ListNode next;
 
+        ListNode(int x) {
+            val = x;
+        }
+    }
 }
